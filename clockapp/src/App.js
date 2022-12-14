@@ -7,7 +7,7 @@ import { useState } from 'react';
 function App() {
   const [date,setDate] = useState(()=> new Date());
   return (
-    <div className="App">
+    <div className="App isColumn">
         <Clock date={date}/>
         <WorldMapImage src={world} date={date}/>
       
