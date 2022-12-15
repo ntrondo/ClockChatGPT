@@ -44,13 +44,13 @@ const calculateUpperPolygon = (innerPolygon) => {
     console.log("WorldMapImage.calculateUpperPolygon() innerPolygon", innerPolygon);
     const first = innerPolygon[0];
     const last = innerPolygon[innerPolygon.length - 1];
-    const polygon = [[0,first[1]],...innerPolygon, [1, last[1]]];
+    const polygon = [[0,1],[0,first[1]],...innerPolygon, [1, last[1]],[1,1]];
     console.log("WorldMapImage.calculateUpperPolygon() polygon", polygon);
     return polygon;
 }
 const calculateLowerPolygon = (upperPolygon) => {
     console.log("WorldMapImage.invertPolygon()", upperPolygon);
-    return [[0, 0], ...upperPolygon, [1, 0]];
+    return [[0,0],[0, 1], ...upperPolygon, [1, 1],[1,0]];
 }
 const calculateClipPathStyle = (polygon) => {
     console.log("WorldMapImage.calculateClipPathStyle()", polygon);

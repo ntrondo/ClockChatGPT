@@ -1,5 +1,5 @@
 import { calculateDayOfYear } from "./Chronos";
-const radiansPerDay = 2*Math.PI / 365;
+const radiansPerDay = 2 * Math.PI / 365;
 /**Solar declination can also be defined as the angle between the line joining the centers of the Sun 
  * and the Earth and its projection on the equatorial plane. The solar declination changes mainly 
  * due to the rotation of Earth about an axis. Its maximum value is 23.45° on 21 December and 
@@ -69,19 +69,38 @@ export const getTargetCoordinates = (longitude, latitude, arcLength, angle) => {
     const targetLongitude = longitude + arcLength * Math.sin(radians);
     const targetLatitude = latitude + arcLength * Math.cos(radians);
 
-    const targetCoordinates = [targetLongitude, targetLatitude];
+    const targetCoordinates = normalize([targetLongitude, targetLatitude]);
     console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), targetCoordinates:", targetCoordinates);
     return targetCoordinates;
+}
+const normalize = (vertex) => {
+    let x = vertex[0];
+    let y = vertex[1];
+
+    while (Math.abs(y) >= 360)
+        y = y - (Math.sign(y) * 360);
+    if(Math.abs(y) >= 180){
+        throw new Error("Not implemented");
+    }
+    if(Math.abs(y) > 90){
+        let signy = Math.sign(y);
+        let overshoot = Math.abs(y) - 90;
+        y = signy * (90 - overshoot);
+        x += 180;
+    }    
+    while (Math.abs(x) > 180)
+        x = x - Math.sign(x) * 360;
+    return [x, y];
 }
 const calculateMercatorProjection = (longitude, latitude) => {
     // Convert the longitude and latitude to radians
     const lonRadians = longitude * (Math.PI / 180);
     const latRadians = latitude * (Math.PI / 180);
-  
+
     // Calculate the projected coordinates
     const x = lonRadians;
     const y = Math.log(Math.tan(latRadians / 2 + Math.PI / 4));
-  
+
     return [x, y];
-  }
-  
+}
+
