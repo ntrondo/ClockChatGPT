@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ClockChatGPT/static/css/main.e962fe69.css",
+    "main.js": "/ClockChatGPT/static/js/main.25b5aef9.js",
+    "static/media/earth-equirectangular.png": "/ClockChatGPT/static/media/earth-equirectangular.1ed7c7cbcf464b0d4813.png",
+    "static/media/sun.png": "/ClockChatGPT/static/media/sun.f069618aa0ba2725b6f4.png",
+    "index.html": "/ClockChatGPT/index.html",
+    "main.e962fe69.css.map": "/ClockChatGPT/static/css/main.e962fe69.css.map",
+    "main.25b5aef9.js.map": "/ClockChatGPT/static/js/main.25b5aef9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e962fe69.css",
+    "static/js/main.25b5aef9.js"
+  ]
+}
