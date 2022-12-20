@@ -9,7 +9,7 @@ const now = new Date();
 const noon = new Date(/*year*/now.getFullYear(), /*monthIndex*/now.getMonth(), /*day*/now.getDay(), /*hours*/12);
 const evening = new Date(/*year*/2022, /*monthIndex*/11, /*day*/20, /*hours*/18);
 function App() {
-  const [date,setDate] = useState(()=> noon);
+  const [date,setDate] = useState(()=> now);
   return (
     <div className="App isColumn isPositionRelative">
         <Clock date={date}/>

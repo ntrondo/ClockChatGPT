@@ -16,13 +16,13 @@ const cartesianSystem = new CartesianSphereSystem(
 );
 const projector = new MercatorProjector(polarSystem, cartesianSystem);
 const inverter = new VerticalInverter(cartesianSystem, cartesianSystem);
-const resolution = 50;
+const resolution = 200;
 const calculateTerminatorPolygon = (sunPolarCoordinates) => {
     //console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), sunPolarCoordinates:", sunPolarCoordinates);
     const polarPolygon = polarSystem.GenerateCircle(sunPolarCoordinates, 90, resolution);
-    //console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), polarPolygon:", polarPolygon);
+    console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), polarPolygon:", polarPolygon);
     const cartesianPolygon = polarPolygon.map((v) => { return projector.Project(v); });
-    const sortedPolygon = cartesianPolygon;
+    const sortedPolygon = cartesianSystem.Order(cartesianPolygon, cartesianSystem.Minimum);
     console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), sortedPolygon:", sortedPolygon);
     const invertedPolygon = sortedPolygon.map((v) => { return inverter.Project(v); });
     console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), invertedPolygon:", invertedPolygon);
@@ -31,7 +31,7 @@ const calculateTerminatorPolygon = (sunPolarCoordinates) => {
 const sortToCurve = (vertices) => {
     const sorted = [];
     var evaluator = (v) => v.X;
-    let vertex = getSmallest(vertices, evaluator);
+    var vertex = getSmallest(vertices, evaluator);
     sorted.push(vertex);
     removeItem(vertices, vertex);
     while (vertices.length > 0) {
@@ -46,7 +46,7 @@ const sortToCurve = (vertices) => {
  * Returns an array of vertices [[x1, y1], [x2, y2],...] 
  * Where both xN and yN are in [0,1].
 */
-const calculateUpperPolygon = (innerPolygon) => {
+const calculateNightPolygon = (innerPolygon) => {
     console.log("WorldMapImage.calculateUpperPolygon() innerPolygon", innerPolygon);
     const first = innerPolygon[0];
     const last = innerPolygon[innerPolygon.length - 1];
@@ -60,7 +60,7 @@ const calculateUpperPolygon = (innerPolygon) => {
     console.log("WorldMapImage.calculateUpperPolygon() polygon", polygon);
     return polygon;
 }
-const calculateLowerPolygon = (upperPolygon) => {
+const calculateDayPolygon = (upperPolygon) => {
     console.log("WorldMapImage.invertPolygon()", upperPolygon);
     return [
         new CartesianCoordinates2D(0, 0),
@@ -117,8 +117,8 @@ export default function WorldMapImage({ earth, sun, date }) {
     const sunWrapperStyle = useMemo(() => calculateSunWrapperStyle(sunCoordinates), [sunCoordinates]);
 
     const polygon = useMemo(() => calculateTerminatorPolygon(sunPolarCoordinates), [sunPolarCoordinates]);
-    const upperPolygon = useMemo(() => calculateUpperPolygon(polygon), [polygon]);
-    const lowerPolygon = useMemo(() => calculateLowerPolygon(upperPolygon), [upperPolygon]);
+    const upperPolygon = useMemo(() => calculateNightPolygon(polygon), [polygon]);
+    const lowerPolygon = useMemo(() => calculateDayPolygon(upperPolygon), [upperPolygon]);
     const upperstyle = useMemo(() => calculateUpperStyle(upperPolygon), [upperPolygon]);
     const lowerStyle = useMemo(() => calculateLowerStyle(lowerPolygon), [lowerPolygon]);
 

@@ -1,4 +1,6 @@
+import { removeItem } from "./Array";
 import { CartesianCoordinates2D } from "./Coordinates";
+import { CartesianVector2D } from "./Vector";
 
 export class CartesianSphereSystem {
     constructor(min, max) {
@@ -11,6 +13,33 @@ export class CartesianSphereSystem {
         this.YRange = this.Maximum.Y - this.Minimum.Y;
         this.HalfYRange = this.YRange / 2;
         this.DoubleYRange = this.YRange * 2;
+    }
+    /**Order vertices by distance.*/
+    Order(vertices, initialReference) {
+        vertices = [...vertices];
+        var vertex = initialReference;
+        const ordered = [];
+        while(vertices.length > 0) {
+            var vertex = this.GetClosest(vertices, vertex);
+            ordered.push(vertex);
+            removeItem(vertices, vertex);
+        }
+        return ordered;
+    }
+    GetClosest(vertices, reference) {
+        if (vertices.Length == 0)
+            return null;
+        var closest = vertices[0];
+        var vector = new CartesianVector2D(reference, closest);
+        let minimum = vector.getLength();
+        for (var i = 1; i < vertices.length; i++) {
+            vector = new CartesianVector2D(reference, vertices[i]);
+            if (vector.getLength() < minimum) {
+                closest = vertices[i];
+                minimum = vector.getLength();
+            }
+        }
+        return closest;
     }
     Normalize(vertex) {
         let x = vertex.X;
@@ -35,7 +64,7 @@ export class CartesianSphereSystem {
             x -= this.XRange;
         while (x < this.Minimum.X)
             x += this.XRange;
-            
+
         return new CartesianCoordinates2D(x, y);
     }
 }
