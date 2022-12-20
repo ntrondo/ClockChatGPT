@@ -5,8 +5,11 @@ import WorldMapImage from './components/WorldMapImage';
 import Clock from './components/Clock';
 import { useState } from 'react';
 
+const now = new Date();
+const noon = new Date(/*year*/now.getFullYear(), /*monthIndex*/now.getMonth(), /*day*/now.getDay(), /*hours*/12);
+const evening = new Date(/*year*/2022, /*monthIndex*/11, /*day*/20, /*hours*/18);
 function App() {
-  const [date,setDate] = useState(()=> new Date());
+  const [date,setDate] = useState(()=> noon);
   return (
     <div className="App isColumn isPositionRelative">
         <Clock date={date}/>

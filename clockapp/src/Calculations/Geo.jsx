@@ -1,4 +1,5 @@
 import { calculateDayOfYear } from "./Chronos";
+import { SphericalCoordinates } from "./Coordinates";
 const radiansPerDay = 2 * Math.PI / 365;
 /**Solar declination can also be defined as the angle between the line joining the centers of the Sun 
  * and the Earth and its projection on the equatorial plane. The solar declination changes mainly 
@@ -34,7 +35,7 @@ export const calculatePositionOfSun = (date) => {
     const declination = calculateSolarDeclination(dayOfYear);
     const latitude = declination;
 
-    const position = [longitude, latitude];
+    const position = new SphericalCoordinates(longitude, latitude);
     console.log("Geo.jsx calculatePositionOfSun(date), position:", position);
     return position;
 }
@@ -48,7 +49,6 @@ export const calculatePositionOfSun = (date) => {
  */
 export const getTargetCoordinates = (longitude, latitude, arcLength, angle) => {
     // Check input
-    let max = 90;
     if (Math.abs(longitude) > 180 || Math.abs(latitude) > 90) {
         console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid input coordinates", [longitude, latitude]);
         return [0, 0];
@@ -73,6 +73,8 @@ export const getTargetCoordinates = (longitude, latitude, arcLength, angle) => {
     console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), targetCoordinates:", targetCoordinates);
     return targetCoordinates;
 }
+
+  
 const normalize = (vertex) => {
     let x = vertex[0];
     let y = vertex[1];
