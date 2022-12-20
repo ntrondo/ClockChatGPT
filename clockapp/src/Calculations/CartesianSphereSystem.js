@@ -1,4 +1,4 @@
-import { removeItem } from "./Array";
+import { removeItem , getSmallest} from "./Array";
 import { CartesianCoordinates2D } from "./Coordinates";
 import { CartesianVector2D } from "./Vector";
 
@@ -15,9 +15,9 @@ export class CartesianSphereSystem {
         this.DoubleYRange = this.YRange * 2;
     }
     /**Order vertices by distance.*/
-    Order(vertices, initialReference) {
-        vertices = [...vertices];
-        var vertex = initialReference;
+    Order(vertices) {
+        vertices = [...vertices];        
+        var vertex  = getSmallest(vertices, (v)=> v.X);        
         const ordered = [];
         while(vertices.length > 0) {
             var vertex = this.GetClosest(vertices, vertex);

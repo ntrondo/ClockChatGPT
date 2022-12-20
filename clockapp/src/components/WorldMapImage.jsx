@@ -15,33 +15,33 @@ const cartesianSystem = new CartesianSphereSystem(
     new CartesianCoordinates2D(1, 1)
 );
 const projector = new MercatorProjector(polarSystem, cartesianSystem);
-const inverter = new VerticalInverter(cartesianSystem, cartesianSystem);
-const resolution = 200;
+const inverter = new VerticalInverter(cartesianSystem);
+const resolution = 150;
 const calculateTerminatorPolygon = (sunPolarCoordinates) => {
     //console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), sunPolarCoordinates:", sunPolarCoordinates);
     const polarPolygon = polarSystem.GenerateCircle(sunPolarCoordinates, 90, resolution);
     console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), polarPolygon:", polarPolygon);
     const cartesianPolygon = polarPolygon.map((v) => { return projector.Project(v); });
-    const sortedPolygon = cartesianSystem.Order(cartesianPolygon, cartesianSystem.Minimum);
+    const sortedPolygon = cartesianSystem.Order(cartesianPolygon);
     console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), sortedPolygon:", sortedPolygon);
     const invertedPolygon = sortedPolygon.map((v) => { return inverter.Project(v); });
     console.log("WorldMapImage.calculateTerminatorPolygon(sunPolarCoordinates), invertedPolygon:", invertedPolygon);
     return invertedPolygon;
 }
-const sortToCurve = (vertices) => {
-    const sorted = [];
-    var evaluator = (v) => v.X;
-    var vertex = getSmallest(vertices, evaluator);
-    sorted.push(vertex);
-    removeItem(vertices, vertex);
-    while (vertices.length > 0) {
-        evaluator = (v) => { return new CartesianVector2D(v, vertex).Length; };
-        vertex = getSmallest(vertices, evaluator);
-        sorted.push(vertex);
-        removeItem(vertices, vertex);
-    }
-    return sorted;
-}
+// const sortToCurve = (vertices) => {
+//     const sorted = [];
+//     var evaluator = (v) => v.X;
+//     var vertex = getSmallest(vertices, evaluator);
+//     sorted.push(vertex);
+//     removeItem(vertices, vertex);
+//     while (vertices.length > 0) {
+//         evaluator = (v) => { return new CartesianVector2D(v, vertex).Length; };
+//         vertex = getSmallest(vertices, evaluator);
+//         sorted.push(vertex);
+//         removeItem(vertices, vertex);
+//     }
+//     return sorted;
+// }
 /** 
  * Returns an array of vertices [[x1, y1], [x2, y2],...] 
  * Where both xN and yN are in [0,1].

@@ -47,62 +47,62 @@ export const calculatePositionOfSun = (date) => {
  * @param { (-360, 360) degrees} angle 
  * @returns 
  */
-export const getTargetCoordinates = (longitude, latitude, arcLength, angle) => {
-    // Check input
-    if (Math.abs(longitude) > 180 || Math.abs(latitude) > 90) {
-        console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid input coordinates", [longitude, latitude]);
-        return [0, 0];
-    }
-    if (Math.abs(arcLength) > 360) {
-        console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid arc length", arcLength);
-        return [0, 0];
-    }
-    if (Math.abs(angle) >= 360) {
-        console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid angle", angle);
-        return [0, 0];
-    }
+// export const getTargetCoordinates = (longitude, latitude, arcLength, angle) => {
+//     // Check input
+//     if (Math.abs(longitude) > 180 || Math.abs(latitude) > 90) {
+//         console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid input coordinates", [longitude, latitude]);
+//         return [0, 0];
+//     }
+//     if (Math.abs(arcLength) > 360) {
+//         console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid arc length", arcLength);
+//         return [0, 0];
+//     }
+//     if (Math.abs(angle) >= 360) {
+//         console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), invalid angle", angle);
+//         return [0, 0];
+//     }
 
-    // Convert the angle from degrees to radians
-    const radians = angle * (Math.PI / 180);
+//     // Convert the angle from degrees to radians
+//     const radians = angle * (Math.PI / 180);
 
-    // Calculate the target longitude and latitude
-    const targetLongitude = longitude + arcLength * Math.sin(radians);
-    const targetLatitude = latitude + arcLength * Math.cos(radians);
+//     // Calculate the target longitude and latitude
+//     const targetLongitude = longitude + arcLength * Math.sin(radians);
+//     const targetLatitude = latitude + arcLength * Math.cos(radians);
 
-    const targetCoordinates = normalize([targetLongitude, targetLatitude]);
-    console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), targetCoordinates:", targetCoordinates);
-    return targetCoordinates;
-}
+//     const targetCoordinates = normalize([targetLongitude, targetLatitude]);
+//     console.log("Geo.jsx getTargetCoordinates(longitude, latitude, arcLength, angle), targetCoordinates:", targetCoordinates);
+//     return targetCoordinates;
+// }
 
   
-const normalize = (vertex) => {
-    let x = vertex[0];
-    let y = vertex[1];
+// const normalize = (vertex) => {
+//     let x = vertex[0];
+//     let y = vertex[1];
 
-    while (Math.abs(y) >= 360)
-        y = y - (Math.sign(y) * 360);
-    if(Math.abs(y) >= 180){
-        throw new Error("Not implemented");
-    }
-    if(Math.abs(y) > 90){
-        let signy = Math.sign(y);
-        let overshoot = Math.abs(y) - 90;
-        y = signy * (90 - overshoot);
-        x += 180;
-    }    
-    while (Math.abs(x) > 180)
-        x = x - Math.sign(x) * 360;
-    return [x, y];
-}
-const calculateMercatorProjection = (longitude, latitude) => {
-    // Convert the longitude and latitude to radians
-    const lonRadians = longitude * (Math.PI / 180);
-    const latRadians = latitude * (Math.PI / 180);
+//     while (Math.abs(y) >= 360)
+//         y = y - (Math.sign(y) * 360);
+//     if(Math.abs(y) >= 180){
+//         throw new Error("Not implemented");
+//     }
+//     if(Math.abs(y) > 90){
+//         let signy = Math.sign(y);
+//         let overshoot = Math.abs(y) - 90;
+//         y = signy * (90 - overshoot);
+//         x += 180;
+//     }    
+//     while (Math.abs(x) > 180)
+//         x = x - Math.sign(x) * 360;
+//     return [x, y];
+// }
+// const calculateMercatorProjection = (longitude, latitude) => {
+//     // Convert the longitude and latitude to radians
+//     const lonRadians = longitude * (Math.PI / 180);
+//     const latRadians = latitude * (Math.PI / 180);
 
-    // Calculate the projected coordinates
-    const x = lonRadians;
-    const y = Math.log(Math.tan(latRadians / 2 + Math.PI / 4));
+//     // Calculate the projected coordinates
+//     const x = lonRadians;
+//     const y = Math.log(Math.tan(latRadians / 2 + Math.PI / 4));
 
-    return [x, y];
-}
+//     return [x, y];
+// }
 
