@@ -20,7 +20,7 @@ const IncrementDate = (oldDateObj) => {
     //   return () => { clearInterval(interval); };
     // }, [date]);
     return (
-      <div className="App isColumn isPositionRelative">
+      <div className="App isColumn isPositionRelative isOverflowXHidden">
         <Clock date={date} setDate={setDate} />
         <WorldMapImage earth={world} sun={sun} date={date} />
       </div>
