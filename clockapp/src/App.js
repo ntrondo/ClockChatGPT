@@ -10,22 +10,21 @@ const noon = new Date(/*year*/now.getFullYear(), /*monthIndex*/now.getMonth(), /
 const evening = new Date(/*year*/2022, /*monthIndex*/11, /*day*/20, /*hours*/19, 30);
 
 const IncrementDate = (oldDateObj) => {
-  const newDateObj = new Date(oldDateObj.getTime() + 5 * 1000);
+  const newDateObj = new Date(oldDateObj.getTime() + 1 * 60 * 1000);
   return newDateObj;
-  //return new Date(date.getFullYear(), date.getMonth(), date.getDay(), date.getHours() , date.getMinutes() + 10);
 }
-function App() {
-  const [date,setDate] = useState(()=> now);
-  useEffect(()=>{
-    const interval = setTimeout(()=>{setDate( IncrementDate(date));}, 5000);
-    return ()=>{clearInterval(interval);};
-  },[date]);
-  return (
-    <div className="App isColumn isPositionRelative">
-        <Clock date={date}/>
-        <WorldMapImage earth={world} sun={sun} date={date}/>      
-    </div>
-  );
-}
+  function App() {
+    const [date, setDate] = useState(() => now);
+    // useEffect(() => {
+    //   const interval = setTimeout(() => { setDate(IncrementDate(date)); }, 100);
+    //   return () => { clearInterval(interval); };
+    // }, [date]);
+    return (
+      <div className="App isColumn isPositionRelative">
+        <Clock date={date} setDate={setDate} />
+        <WorldMapImage earth={world} sun={sun} date={date} />
+      </div>
+    );
+  }
 
-export default App;
+  export default App;

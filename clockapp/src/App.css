@@ -36,7 +36,12 @@
     transform: rotate(360deg);
   }
 }
-
+.isFlex{
+  display: flex;
+}
+.isFlexGrow1{
+  flex-grow: 1;
+}
 .isRow{
   display: flex;
   flex-direction: row;
@@ -48,6 +53,12 @@
 .isContentCentered{
   justify-content: center;
 }
+.isItemsAllignedCenter{
+  align-items:center ;
+}
 .isPositionRelative{
   position: relative;
+}
+.mt10{
+  margin-top: 10px;
 }
